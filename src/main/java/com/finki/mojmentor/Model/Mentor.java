@@ -1,43 +1,50 @@
 package com.finki.mojmentor.Model;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mentor extends User{
-    List<MentorshipProgram> programs;
+@Data
+public class Mentor{
+    public String name;
+    public String surname;
+    public String username;
+    public String password;
+    public String birthDate;
+    public String email;
+    public String gender;
+    private float rating;
+    private int reviews;
+    private int sessions;
+    private String location;
+    private String imgUrl;
+    private String summary;
 
-    public Mentor(String name, String surname, String username, String password, String birthDate,  String eMail) {
-        super(name, surname, username, password, birthDate, eMail);
-        programs = new ArrayList<MentorshipProgram>();
-    }
+    private List<MentorshipProgram> mentorshipPrograms;
 
-    public void addProgram(MentorshipProgram newProgram){
-        programs.add(newProgram);
-    }
-
-    public void updateMentor(String updateField, String newRecord){
-        switch(updateField){
-            case "name":
-                super.name=newRecord;
-                break;
-            case "surname":
-                super.surname=newRecord;
-                break;
-            case "username":
-                super.username=newRecord;
-                break;
-            case "password":
-                super.password=newRecord;
-                break;
-            case "birthDate":
-                super.birthDate=newRecord;
-                break;
-        }
-
-    }
-
-    @Override
-    public String toString() {
-        return "Name: "+super.name + " Surname: "+ super.surname + "Username: " +super.username+ "Password"+ super.password +"Birthday: "+ super.birthDate + programs.toString();
+    public Mentor(String name,
+                  String surname,
+                  String username,
+                  String password,
+                  String birthDate,
+                  String email,
+                  String gender,
+                  String location,
+                  String imgUrl)
+    {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.birthDate = birthDate;
+        this.gender=gender;
+        this.location=location;
+        this.email = email;
+        this.reviews=0;
+        this.sessions=0;
+        this.location="";
+        this.imgUrl=imgUrl;
+        this.mentorshipPrograms=new ArrayList<>();
     }
 }
