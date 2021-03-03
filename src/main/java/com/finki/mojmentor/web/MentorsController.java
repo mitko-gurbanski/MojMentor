@@ -7,19 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/list-mentors")
-public class ListMentorController {
+@RequestMapping("/mentors")
+public class MentorsController {
 
     private final MentorService mentorService;
 
-    public ListMentorController(MentorService mentorService) {
+    public MentorsController(MentorService mentorService) {
         this.mentorService = mentorService;
     }
 
-    @GetMapping()
+    @GetMapping("/all-mentors")
     public String getListMentors(Model model){
         model.addAttribute("mentors",mentorService.listAllMentors());
         return "list-mentors";
     }
-
 }
