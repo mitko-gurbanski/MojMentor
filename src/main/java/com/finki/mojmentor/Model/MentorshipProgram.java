@@ -2,29 +2,32 @@ package com.finki.mojmentor.Model;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class MentorshipProgram {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public Long id;
     public String programName;
     public String programDescription;
     public float price;
     public String img;
 
-    public MentorshipProgram(String programName, String programDescription, int price, String img) {
+    @ManyToMany(cascade=CascadeType.ALL)
+    List<Category> categoryList = new ArrayList<>();
+
+    public MentorshipProgram(String programName, String programDescription, int price) {
         this.programName = programName;
         this.programDescription = programDescription;
         this.price = price;
-        this.img=img;
     }
-
 
 }

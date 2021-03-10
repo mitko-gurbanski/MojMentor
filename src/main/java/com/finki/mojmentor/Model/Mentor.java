@@ -2,6 +2,7 @@ package com.finki.mojmentor.Model;
 
 import com.finki.mojmentor.Model.enumerations.Role;
 import lombok.Data;
+import org.h2.engine.Domain;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -32,6 +33,7 @@ public class Mentor implements UserDetails {
     private String imgUrl;
     private String summary;
 
+
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;
@@ -40,7 +42,7 @@ public class Mentor implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     private List<MentorshipProgram> mentorshipPrograms;
 
     public Mentor(String name,
