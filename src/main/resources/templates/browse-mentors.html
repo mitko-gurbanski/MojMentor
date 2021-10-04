@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Mentors</title>
+</head>
+<body>
+
+    <table style="width:100%">
+        <tr th:each="mentor: ${mentors}">
+            <th th:text="${mentor.name}"></th>
+            <th th:text="${mentor.surname}"></th>
+            <th th:text="${mentor.email}"></th>
+            <th th:text="${mentor.birthDate}"></th>
+            <td th:each="program : ${mentor.mentorshipPrograms}" th:text="${program.programName + ' ' + program.price}"></td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+
+        </tr>
+    </table>
+</body>
+</html>
