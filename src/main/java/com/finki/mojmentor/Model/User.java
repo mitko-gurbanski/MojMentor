@@ -3,17 +3,21 @@ package com.finki.mojmentor.Model;
 import com.finki.mojmentor.Model.enumerations.Role;
 import lombok.Data;
 import org.h2.engine.Domain;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 @Data
 @Entity
-public class Mentor implements UserDetails {
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +27,7 @@ public class Mentor implements UserDetails {
     private String surname;
     private String username;
     private String password;
-    private String birthDate;
+    private Date birthDate;
     private String email;
     private String gender;
     private float rating;
@@ -45,11 +49,30 @@ public class Mentor implements UserDetails {
     @ManyToMany(cascade=CascadeType.ALL)
     private List<MentorshipProgram> mentorshipPrograms;
 
-    public Mentor(String name,
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Notification> notifications = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<MentorshipProgram> favoriteProgramList = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Purchase> purchaseList;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modify_date")
+    private Date modifyDate;
+
+    public User(String name,
                   String surname,
                   String username,
                   String password,
-                  String birthDate,
+                  Date birthDate,
                   String email,
                   String gender,
                   String location)
@@ -68,11 +91,12 @@ public class Mentor implements UserDetails {
         this.mentorshipPrograms=new ArrayList<>();
     }
 
-    public Mentor() {
+    public User() {
 
     }
 
-    public Mentor(String username, String encode, String name, String surname, Role userRole) {
+    public User(String username, String email, String encode, String name, String surname, Role userRole) {
+        this.email=email;
         this.username=username;
         this.password=encode;
         this.name=name;
@@ -105,4 +129,5 @@ public class Mentor implements UserDetails {
     public boolean isEnabled() {
         return isEnabled;
     }
+
 }

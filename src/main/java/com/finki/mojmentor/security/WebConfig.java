@@ -1,5 +1,6 @@
 package com.finki.mojmentor.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,6 +16,9 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
 
+    @Autowired
+    CustomSuccessHandler customSuccessHandler;
+
 
     public WebConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider authenticationProvider) {
         this.passwordEncoder = passwordEncoder;
@@ -25,14 +29,16 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/mentor/**").hasAuthority("MENTOR")
+                .antMatchers("/student/**").hasAuthority("STUDENT")
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
+                .formLogin().loginPage("/login").permitAll()
                 .failureUrl("/login?error=BadCredentials")
-                .defaultSuccessUrl("/", true)
+                .successHandler(customSuccessHandler)
                 .and()
                 .logout()
                 .logoutUrl("/logout")

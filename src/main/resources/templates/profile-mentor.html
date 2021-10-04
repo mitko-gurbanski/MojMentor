@@ -6,5 +6,21 @@
 </head>
 <body>
     <h1 th:text="${mentor.name + ' ' + mentor.surname}">Mentor's Profile</h1>
+
+    <table style="width:100%">
+        <tr>
+            <th th:text="${mentor.name}"></th>
+            <th th:text="${mentor.surname}"></th>
+            <th th:text="${mentor.email}"></th>
+            <th th:text="${mentor.birthDate}"></th>
+
+        </tr>
+        <tr>
+            <td th:each="program : ${mentor.mentorshipPrograms}" th:text="${program.programName + ' ' + program.price}"></td>
+        </tr>
+        <tr>
+
+        </tr>
+    </table>
 </body>
 </html>
