@@ -5,6 +5,8 @@ import com.finki.mojmentor.repository.CategoryRepository;
 import com.finki.mojmentor.service.CategoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
@@ -17,4 +19,10 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findCategoryByCategoryName(String categoryName) {
         return categoryRepository.findCategoryByName(categoryName).orElseThrow();
     }
+
+    @Override
+    public List<Category> listAll() {
+        return categoryRepository.findAll();
+    }
+
 }

@@ -26,6 +26,8 @@ public class Student{
     @Column(length = 4000)
     private String summary;
 
+
+
     public Student(Long id, String name, String surname, String username, String password, String birthDate, String email, String gender, float rating, int reviews, String summary) {
         this.id = id;
         this.name = name;

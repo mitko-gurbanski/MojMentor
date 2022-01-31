@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Component
 public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
     private final UserService userService;
@@ -34,8 +36,8 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Password is incorrect!");
         }
-        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     @Override

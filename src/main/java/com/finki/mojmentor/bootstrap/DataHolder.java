@@ -1,8 +1,7 @@
 package com.finki.mojmentor.bootstrap;
 
-import com.finki.mojmentor.Model.Mentor;
 import com.finki.mojmentor.Model.MentorshipProgram;
-import com.finki.mojmentor.Model.enumerations.Role;
+import com.finki.mojmentor.Model.User;
 import com.finki.mojmentor.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import java.util.List;
 @Component
 @Service
 public class DataHolder {
-    public static List<Mentor> mentorList = new ArrayList<>();
+    public static List<User> mentorList = new ArrayList<>();
     public static List<MentorshipProgram> mentroshipProgramsList = new ArrayList<>();
     private final UserService userService;
 

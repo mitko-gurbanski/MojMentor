@@ -1,6 +1,6 @@
 package com.finki.mojmentor.web.rest;
 
-import com.finki.mojmentor.Model.Mentor;
+import com.finki.mojmentor.Model.User;
 import com.finki.mojmentor.service.MentorService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class MentorRestController {
     }
 
     @GetMapping
-    public List<Mentor> listMentors(){
+    public List<User> listMentors(){
         return mentorService.listAllMentors();
     }
 }
