@@ -3,6 +3,7 @@ package com.finki.mojmentor.web;
 
 import com.finki.mojmentor.Model.*;
 import com.finki.mojmentor.Model.enumerations.MentorshipProgramLevel;
+import com.finki.mojmentor.Model.enumerations.NotificationStatus;
 import com.finki.mojmentor.Model.enumerations.RoomStatus;
 import com.finki.mojmentor.repository.RoomConferenceRepository;
 import com.finki.mojmentor.service.CategoryService;
@@ -45,26 +46,16 @@ public class MentorController {
 
     @Transactional
     @GetMapping("/me")
-    public String getMentorDashboardPage(HttpServletRequest request){
+    public String getMentorDashboardPage(Model model, HttpServletRequest request){
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String username = loggedInUser.getName();
         request.getSession().setAttribute("user", username);
 
-        RoomConference roomConference = roomConferenceRepository.readRoomConferenceByUser1(mentorService.findMentorByUsername("Mitko06"));
-        RoomConference newRoomConference = new RoomConference();
-        newRoomConference.setUser1(mentorService.findMentorByUsername("Mitko08"));
-        newRoomConference.setUser2(mentorService.findMentorByUsername("Mitko09"));
-        newRoomConference.setRoomToken(new RandomString(100).nextString());
+        List<Notification> notifications = mentorService.findMentorByUsername(username).getNotifications().stream()
+                .filter(notification->notification.getNotificationStatus().equals(NotificationStatus.UNREAD)).collect(Collectors.toList());
 
-        roomConferenceRepository.save(newRoomConference);
-
-        List<RoomConference> activeRoomConferences = roomConferenceRepository.readRoomConferencesByStatus(RoomStatus.ACTIVE);
-        List<RoomConference> inactiveRoomConferences = roomConferenceRepository.readRoomConferencesByStatus(RoomStatus.INACTIVE);
-
-        List<RoomConference> activeRoomConferencesWithMentor = roomConferenceRepository.readRoomConferenceByStatusAndUser1(RoomStatus.ACTIVE,mentorService.findMentorByUsername("Mitko06"));
-
-
+        model.addAttribute("notifications",notifications);
         //mentorService.addCatgoryToMentorToMentorShipProgram("TestCategory1","TestMentorshipProgram1","Mitko06");
         return "/mentor/mentor-dashboard";
     }
